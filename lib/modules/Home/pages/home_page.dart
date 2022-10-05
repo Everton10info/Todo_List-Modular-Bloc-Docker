@@ -17,13 +17,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     controller.getItems();
     return Scaffold(
-        appBar: AppBar(title: const Text('Todo List'),),
+        appBar: AppBar(
+          title: const Text('Todo List'),
+        ),
         body: ListView.builder(
           itemCount: controller.items.length,
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(controller.items[index].name!),
-              subtitle: Text(controller.items[index].completed.toString()),
+              leading: Checkbox(
+                value: controller.items[index].completed,
+                onChanged: (bool? value) {
+                  value = !value!;
+                  
+                  setState(() {});
+                },
+              ),
             );
           },
         ));

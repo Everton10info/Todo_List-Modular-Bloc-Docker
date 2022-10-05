@@ -10,13 +10,15 @@ class HomeController {
   List<TodoModel> items = [];
 
   Future<List<TodoModel>> getItems() async {
-  items = await repository.getData();
-  return items;
+    items = await repository.getData();
+    return items;
   }
 
-   Future<List<TodoModel>> setItems() async {
-    return await repository.getData(); //implementar o set 
+  Future<List<TodoModel>> setItems(String name, bool completed) async {
+    return await repository.setData(name, completed);
   }
 
-
+  Future<List<TodoModel>> deleteItems(String id) async {
+    return await repository.deleteData(id);
+  }
 }

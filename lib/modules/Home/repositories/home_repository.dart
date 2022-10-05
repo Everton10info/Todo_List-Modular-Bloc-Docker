@@ -17,4 +17,24 @@ class HomeRepository {
       rethrow;
     }
   }
+
+  Future<List<TodoModel>> setData(String name, bool completed) async {
+    try {
+      var response = await _httpClient.posttHttp(name, completed);
+      return response;
+    } catch (e) {
+      debugPrint('$e');
+      rethrow;
+    }
+  }
+
+  Future<List<TodoModel>> deleteData(String id) async {
+    try {
+      var response = await _httpClient.deleteHttp(id);
+      return response;
+    } catch (e) {
+      debugPrint('$e');
+      rethrow;
+    }
+  }
 }

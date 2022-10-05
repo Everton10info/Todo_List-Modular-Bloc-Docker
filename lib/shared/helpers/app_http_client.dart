@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:modular_bloc_docker/shared/helpers/app_api.dart';
 
 class HttpClient {
   final _dio = _createDio();
+
+  var appApi = Modular.get<AppApi>();
 
   static Dio _createDio() {
     var dio = Dio(
@@ -16,11 +20,9 @@ class HttpClient {
     return dio;
   }
 
-  final baseUrl = 'http://192.168.0.103:3000/items';
-
   Future getHttp() async {
     try {
-      return await _dio.get(baseUrl);
+      return await _dio.get(appApi.baseUrl + appApi.itemsRoute);
     } on DioError catch (e) {
       debugPrint('$e');
       rethrow;
@@ -29,8 +31,8 @@ class HttpClient {
 
   Future posttHttp(String name, bool completed) async {
     try {
-      var response = await _dio
-          .post(baseUrl, data: {"name": name, "completed": completed});
+      var response = await _dio.post(appApi.baseUrl + appApi.itemsRoute,
+          data: {"name": name, "completed": completed});
 
       return response;
     } on DioError catch (e) {
@@ -41,7 +43,7 @@ class HttpClient {
 
   Future deleteHttp(String id) async {
     try {
-      var response = await _dio.delete(baseUrl + id);
+      var response = await _dio.delete(appApi.baseUrl + appApi.itemsRoute + id);
       debugPrint('$response');
     } on DioError catch (e) {
       debugPrint('$e');

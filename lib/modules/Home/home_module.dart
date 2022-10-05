@@ -8,9 +8,9 @@ import 'pages/home_page.dart';
 class TodoModule extends Module {
   @override
   List<Bind> get binds => [
-    Bind((i) => HttpClient()),
-    Bind((i) => HomeRepository(i())),
-    Bind((i) => HomeController(i()))];
+        Bind((i) => HomeRepository(i())),
+        Bind((i) => HomeController(i())),
+      ];
 
   @override
   List<ModularRoute> get routes => [
