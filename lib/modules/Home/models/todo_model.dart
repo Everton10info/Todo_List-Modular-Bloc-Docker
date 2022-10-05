@@ -3,10 +3,7 @@ class TodoModel {
   String? name;
   bool? completed;
 
-  TodoModel({
-    this.name,
-    this.completed,
-  });
+  TodoModel({this.id, this.name, this.completed});
 
   TodoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -16,11 +13,9 @@ class TodoModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    //id ??
+    data['id'] = id;
     data['name'] = name;
     data['completed'] = completed;
     return data;
   }
-
-  
 }

@@ -8,7 +8,7 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Teste_Modular_Docker_Bloc',
+      title: 'Todo List',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,  
