@@ -15,6 +15,9 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
   }
 
+
+
+
   _loadPage() {
     Future.delayed(const Duration(seconds: 2))
         .then((value) => Modular.to.navigate('/todo/'));

@@ -14,11 +14,15 @@ class HomeController {
     return items;
   }
 
-  Future<List<TodoModel>> setItems(String name, bool completed) async {
+  Future setItems(String name, bool completed) async {
     return await repository.setData(name, completed);
   }
 
-  Future<List<TodoModel>> deleteItems(String id) async {
+  Future  deleteItems(String id) async {
     return await repository.deleteData(id);
+  }
+Map<String,dynamic> eu = {'name':'everton', 'completed': true};
+  Future updateItems(String id, eu) async {
+    return await repository.updateData(id,eu);
   }
 }

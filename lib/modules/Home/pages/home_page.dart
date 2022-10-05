@@ -23,17 +23,24 @@ class _HomePageState extends State<HomePage> {
         body: ListView.builder(
           itemCount: controller.items.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(controller.items[index].name!),
-              leading: Checkbox(
-                value: controller.items[index].completed,
-                onChanged: (bool? value) {
-                  value = !value!;
-                  
-                  setState(() {});
-                },
-              ),
-            );
+            return Card(
+              color: Colors.grey.shade300,
+                elevation: 4,
+                child: ListTile(
+                  title: Text(
+                    controller.items[index].name!,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {
+                      setState(() {
+                       // controller.setItems('everton', true);// teste
+                        controller.deleteItems(controller.items[index].id!);
+                      });
+                    },
+                    icon: const Icon(Icons.delete),
+                  ),
+                ));
           },
         ));
   }

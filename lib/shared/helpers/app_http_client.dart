@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:modular_bloc_docker/modules/Home/models/todo_model.dart';
 import 'package:modular_bloc_docker/shared/helpers/app_api.dart';
 
 class HttpClient {
@@ -45,6 +48,16 @@ class HttpClient {
     try {
       var response = await _dio.delete(appApi.baseUrl + appApi.itemsRoute + id);
       debugPrint('$response');
+    } on DioError catch (e) {
+      debugPrint('$e');
+      rethrow;
+    }
+  }
+
+  Future updateHttp(String id, data) async {
+    try {
+      var response = await _dio.put(appApi.baseUrl + appApi.itemsRoute +id ,data: data);
+      debugPrint('eeeeeeee +$response');
     } on DioError catch (e) {
       debugPrint('$e');
       rethrow;
