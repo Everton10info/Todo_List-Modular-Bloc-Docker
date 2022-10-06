@@ -18,10 +18,10 @@ class HomeRepository {
     }
   }
 
-  Future<List<TodoModel>> setData(String name, bool completed) async {
+  Future setData(String name, bool completed) async {
     try {
       var response = await _httpClient.posttHttp(name, completed);
-      return response;
+      return response.data;
     } catch (e) {
       debugPrint('$e');
       rethrow;
@@ -38,10 +38,10 @@ class HomeRepository {
     }
   }
 
-  Future<List<TodoModel>> updateData(String id,data) async {
+  Future updateData(String id, data) async {
     try {
-      var response = await _httpClient.updateHttp(id,data );
-      return response;
+      var response = await _httpClient.updateHttp(id, data);
+      return response.data;
     } catch (e) {
       debugPrint('$e');
       rethrow;

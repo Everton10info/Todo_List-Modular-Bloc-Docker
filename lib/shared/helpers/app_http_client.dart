@@ -57,7 +57,8 @@ class HttpClient {
   Future updateHttp(String id, data) async {
     try {
       var response = await _dio.put(appApi.baseUrl + appApi.itemsRoute +id ,data: data);
-      debugPrint('eeeeeeee +$response');
+      debugPrint('update diooo +$response');
+      return response;
     } on DioError catch (e) {
       debugPrint('$e');
       rethrow;
