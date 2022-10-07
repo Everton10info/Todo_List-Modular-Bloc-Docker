@@ -7,10 +7,10 @@ abstract class TodoState {
 }
 
 
-class TodoInitial extends TodoState {
-TodoInitial() : super(itemsTodo: []);
+class TodoInitialState extends TodoState {
+TodoInitialState() : super(itemsTodo: []);
 }
 
-class TodoSuccess  extends TodoState {
- TodoSuccess({required List<TodoModel> itemsTodo}) : super(itemsTodo: []);
+class TodoSuccessState  extends TodoState {
+ TodoSuccessState({required List<TodoModel> itemsTodo}) : super(itemsTodo: []);
 }

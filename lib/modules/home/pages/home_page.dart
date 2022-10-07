@@ -50,11 +50,12 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: height * 0.8,
                 child: BlocBuilder<TodoBloc, TodoState>(
+                
                   bloc: bloc,
                   builder: ((context, state) {
-                    if (state is TodoInitial) {
+                    if (state is TodoInitialState) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (state is TodoSuccess) {
+                    } else if (state is TodoSuccessState) {
                       final items = state.itemsTodo;
 
                       return ListView.builder(
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
           onPressed: (() {
             setState(() {
-                bloc.add(TodoInsert(controller.fieldAddTodo.text));
+              //  bloc.add(TodoInsert(controller.fieldAddTodo.text));
             });
           }),
           child: const Icon(Icons.add)),

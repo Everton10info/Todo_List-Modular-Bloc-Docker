@@ -9,14 +9,14 @@ part 'todo_event.dart';
 part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  TodoBloc() : super(TodoInitial()) {
+  TodoBloc() : super(TodoInitialState()) {
     var repo = Modular.get<HomeRepository>();
     on<TodoLoad>((event, emit) async {
 
       List<TodoModel> items = [];
       items = await repo.getData();
     
-      emit(TodoSuccess(itemsTodo: items));
+      emit(TodoSuccessState(itemsTodo: items));
     });
   }
 }
