@@ -18,9 +18,9 @@ class HomeRepository {
     }
   }
 
-  Future setData(String name, bool completed) async {
+  Future setData(String name) async {
     try {
-      var response = await _httpClient.posttHttp(name, completed);
+      var response = await _httpClient.posttHttp(name);
       return response.data;
     } catch (e) {
       debugPrint('$e');

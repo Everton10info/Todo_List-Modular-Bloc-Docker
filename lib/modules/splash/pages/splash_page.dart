@@ -15,9 +15,6 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
   }
 
-
-
-
   _loadPage() {
     Future.delayed(const Duration(seconds: 2))
         .then((value) => Modular.to.navigate('/todo/'));
@@ -33,7 +30,9 @@ class _SplashPageState extends State<SplashPage> {
           FlutterLogo(
             size: 128,
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Text(
             'Todo List',
             style: TextStyle(

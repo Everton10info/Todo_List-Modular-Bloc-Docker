@@ -11,9 +11,7 @@ class AppWidget extends StatelessWidget {
       title: 'Todo List',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       routeInformationParser: Modular.routeInformationParser,
-      routerDelegate: Modular.routerDelegate,  
-      
+      routerDelegate: Modular.routerDelegate,
     );
   }
-
 }

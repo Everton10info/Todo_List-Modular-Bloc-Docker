@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modular_bloc_docker/modules/Home/models/todo_model.dart';
+import 'package:modular_bloc_docker/modules/home/models/todo_model.dart';
 
 import '../repositories/home_repository.dart';
 
@@ -17,7 +17,7 @@ class HomeController {
   }
 
   Future setItems(String name) async {
-    Map<String, dynamic> map = await repository.setData(name, false);
+    Map<String, dynamic> map = await repository.setData(name);
     //await getItems();
     items.add(TodoModel.fromJson(map));
   }

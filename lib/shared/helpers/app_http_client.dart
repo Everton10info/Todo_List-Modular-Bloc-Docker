@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/modules/Home/models/todo_model.dart';
 import 'package:modular_bloc_docker/shared/helpers/app_api.dart';
 
 class HttpClient {
@@ -32,10 +29,10 @@ class HttpClient {
     }
   }
 
-  Future posttHttp(String name, bool completed) async {
+  Future posttHttp(String name) async {
     try {
       var response = await _dio.post(appApi.baseUrl + appApi.itemsRoute,
-          data: {"name": name, "completed": completed});
+          data: {"name": name});
 
       return response;
     } on DioError catch (e) {
