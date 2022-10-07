@@ -12,5 +12,5 @@ TodoInitialState() : super(itemsTodo: []);
 }
 
 class TodoSuccessState  extends TodoState {
- TodoSuccessState({required List<TodoModel> itemsTodo}) : super(itemsTodo: []);
+ TodoSuccessState({required List<TodoModel> itemsTodo}) : super(itemsTodo: itemsTodo);
 }

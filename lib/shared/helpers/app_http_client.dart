@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:modular_bloc_docker/shared/helpers/app_api.dart';
 
@@ -24,15 +25,16 @@ class HttpClient {
     try {
       return await _dio.get(appApi.baseUrl + appApi.itemsRoute);
     } on DioError catch (e) {
+     
       debugPrint('$e');
       rethrow;
     }
   }
 
-  Future posttHttp(String name) async {
+  Future posttHttp(String name,bool check) async {
     try {
       var response = await _dio.post(appApi.baseUrl + appApi.itemsRoute,
-          data: {"name": name});
+          data: {"name": name, "completed": check});
 
       return response;
     } on DioError catch (e) {

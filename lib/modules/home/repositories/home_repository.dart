@@ -11,6 +11,7 @@ class HomeRepository {
   Future<List<TodoModel>> getData() async {
     try {
       var response = await _httpClient.getHttp();
+
       return (response.data as List).map((e) => TodoModel.fromJson(e)).toList();
     } catch (e) {
       debugPrint('$e');
@@ -18,9 +19,9 @@ class HomeRepository {
     }
   }
 
-  Future setData(String name) async {
+  Future setData(String name, bool check) async {
     try {
-      var response = await _httpClient.posttHttp(name);
+      var response = await _httpClient.posttHttp(name, check);
       return response.data;
     } catch (e) {
       debugPrint('$e');
@@ -38,7 +39,10 @@ class HomeRepository {
     }
   }
 
-  Future updateData(String id, data) async {
+  Future updateData(String id, String name, bool check) async {
+
+    Map<String,Object> data = {"id": id, "name": name, "completed": check};
+
     try {
       var response = await _httpClient.updateHttp(id, data);
       return response.data;
