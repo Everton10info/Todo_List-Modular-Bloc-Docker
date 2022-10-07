@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+
 import '../bloc/todo_bloc.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController fieldAddTodo = TextEditingController(text: '');
+  TextEditingController fieldAddTodo = TextEditingController();
+  TextEditingController fieldEditionTodo = TextEditingController();
   final bloc = Modular.get<TodoBloc>();
   bool check = false;
 
@@ -60,41 +62,50 @@ class _HomePageState extends State<HomePage> {
                             title: GestureDetector(
                               onDoubleTap: () {
                                 showDialog(
-                                    context: context,
-                                    builder: ((context) {
-                                      return AlertDialog(
-                                        content:
-                                            TextField( controller: fieldAddTodo),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              bloc.add(TodoEdit(
-                                                  name: fieldAddTodo.text,
-                                                  completed: check,
-                                                  id: state
-                                                      .itemsTodo[index].id!));
-                                                      
-                                            },
-                                            child: const Text('OK'),
-                                          )
-                                        ],
-                                      );
-                                    }));
+                                  context: context,
+                                  builder: ((context) {
+                                    return AlertDialog(
+                                      content: TextField(
+                                        style: const TextStyle(fontSize: 20),
+                                        controller: fieldEditionTodo =
+                                            TextEditingController(
+                                                text: state
+                                                    .itemsTodo[index].name),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            bloc.add(TodoEdit(
+                                                name: fieldEditionTodo.text,
+                                                completed: state
+                                                    .itemsTodo[index]
+                                                    .completed!,
+                                                id: state
+                                                    .itemsTodo[index].id!));
+                                            fieldEditionTodo.text = '';
+                                            Modular.to.pop();
+                                          },
+                                          child: const Text('OK'),
+                                        )
+                                      ],
+                                    );
+                                  }),
+                                );
                               },
                               child: Text(
                                   textAlign: TextAlign.start,
                                   state.itemsTodo[index].name!,
                                   style: const TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 20,
                                   )),
                             ),
                             leading: Checkbox(
-                                checkColor: Colors.blueGrey,
-                                value: check,
+                                value: state.itemsTodo[index].completed!,
                                 onChanged: (check) {
-                                  setState(() {
-                                    check = !check!;
-                                  });
+                                  bloc.add(TodoEdit(
+                                      name: state.itemsTodo[index].name!,
+                                      completed: check!,
+                                      id: state.itemsTodo[index].id!));
                                 }),
                             trailing: IconButton(
                               color: Colors.black54,
@@ -119,7 +130,8 @@ class _HomePageState extends State<HomePage> {
                   fieldAddTodo.text = '';
                 },
                 icon: const Icon(Icons.add),
-                label: const Text('Insert'))
+                label: const Text('Insert')),
+            SizedBox(height: height * 0.02)
           ],
         ),
       ),

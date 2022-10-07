@@ -25,13 +25,12 @@ class HttpClient {
     try {
       return await _dio.get(appApi.baseUrl + appApi.itemsRoute);
     } on DioError catch (e) {
-     
       debugPrint('$e');
       rethrow;
     }
   }
 
-  Future posttHttp(String name,bool check) async {
+  Future posttHttp(String name, bool check) async {
     try {
       var response = await _dio.post(appApi.baseUrl + appApi.itemsRoute,
           data: {"name": name, "completed": check});
@@ -55,8 +54,8 @@ class HttpClient {
 
   Future updateHttp(String id, data) async {
     try {
-      var response = await _dio.put(appApi.baseUrl + appApi.itemsRoute +id ,data: data);
-      debugPrint('update diooo +$response');
+      var response =
+          await _dio.put(appApi.baseUrl + appApi.itemsRoute + id, data: data);
       return response;
     } on DioError catch (e) {
       debugPrint('$e');

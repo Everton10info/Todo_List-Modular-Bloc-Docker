@@ -18,24 +18,25 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     });
 
     on<TodoInsert>(((event, emit) async {
-      await repository.setData(event.item, event.check);
-      items = await repository.getData();
-      emit(TodoSuccessState(itemsTodo: items));
+      if (event.item.isNotEmpty) {
+        await repository.setData(event.item, event.check);
+        items = await repository.getData();
+        emit(TodoSuccessState(itemsTodo: items));
+      }
     }));
 
     on<TodoEdit>(((event, emit) async {
-      await repository.updateData(event.id,event.name,event.completed);
-      items = await repository.getData();
-      emit(TodoSuccessState(itemsTodo: items));
+      if (event.name.isNotEmpty) {
+        await repository.updateData(event.id, event.name, event.completed);
+        items = await repository.getData();
+        emit(TodoSuccessState(itemsTodo: items));
+      }
     }));
-
-
 
     on<TodoDelete>(((event, emit) async {
       await repository.deleteData(event.id);
       items = await repository.getData();
       emit(TodoSuccessState(itemsTodo: items));
     }));
-
   }
 }

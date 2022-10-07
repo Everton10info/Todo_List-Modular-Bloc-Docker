@@ -41,7 +41,7 @@ class HomeRepository {
 
   Future updateData(String id, String name, bool check) async {
 
-    Map<String,Object> data = {"id": id, "name": name, "completed": check};
+    Map<String,dynamic> data = {"id": id, "name": name, "completed": check};
 
     try {
       var response = await _httpClient.updateHttp(id, data);
