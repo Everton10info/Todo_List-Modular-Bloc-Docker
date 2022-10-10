@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../shared/helpers/app_http_client.dart';
+import '../../../shared/core/http_client/app_http_client.dart';
 import '../models/todo_model.dart';
 
 class HomeRepository {
@@ -11,7 +11,6 @@ class HomeRepository {
   Future<List<TodoModel>> getData() async {
     try {
       var response = await _httpClient.getHttp();
-
       return (response.data as List).map((e) => TodoModel.fromJson(e)).toList();
     } catch (e) {
       debugPrint('$e');
@@ -19,7 +18,7 @@ class HomeRepository {
     }
   }
 
-  Future setData(String name, bool check) async {
+  Future insertData(String name, bool check) async {
     try {
       var response = await _httpClient.posttHttp(name, check);
       return response.data;
@@ -40,8 +39,7 @@ class HomeRepository {
   }
 
   Future updateData(String id, String name, bool check) async {
-
-    Map<String,dynamic> data = {"id": id, "name": name, "completed": check};
+    Map<String, dynamic> data = {"id": id, "name": name, "completed": check};
 
     try {
       var response = await _httpClient.updateHttp(id, data);

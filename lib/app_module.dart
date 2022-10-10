@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/shared/helpers/app_api.dart';
-import 'package:modular_bloc_docker/shared/helpers/app_http_client.dart';
+import 'package:modular_bloc_docker/shared/core/http_client/app_api.dart';
+import 'package:modular_bloc_docker/shared/core/http_client/app_http_client.dart';
 
 import 'modules/splash/splash_module.dart';
 import 'modules/home/home_module.dart';

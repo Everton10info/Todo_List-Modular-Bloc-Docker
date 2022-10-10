@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/shared/helpers/app_api.dart';
+import 'package:modular_bloc_docker/shared/core/http_client/app_api.dart';
 
 class HttpClient {
   final _dio = _createDio();
@@ -29,6 +29,8 @@ class HttpClient {
       rethrow;
     }
   }
+
+  
 
   Future posttHttp(String name, bool check) async {
     try {
