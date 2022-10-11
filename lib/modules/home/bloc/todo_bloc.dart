@@ -47,9 +47,13 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     }));
 
     on<TodoDelete>(((event, emit) async {
-      await repository.deleteData(event.id);
-      items = await repository.getData();
-      emit(TodoSuccessState(itemsTodo: items));
+      try {
+        await repository.deleteData(event.id);
+        items = await repository.getData();
+        emit(TodoSuccessState(itemsTodo: items));
+      } catch (error) {
+        emit(TodoError(message: '$error'));
+      }
     }));
   }
 }

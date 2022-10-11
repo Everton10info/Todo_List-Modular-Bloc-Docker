@@ -8,6 +8,7 @@ class HttpClient {
   final _dio = _createDio();
 
   var appApi = Modular.get<AppApi>();
+  String errorServer = 'Ops, sem conexão, tente mais tarde!';
 
   static Dio _createDio() {
     var dio = Dio(
@@ -29,7 +30,7 @@ class HttpClient {
       return response;
     } on DioError catch (e) {
       debugPrint('${e.error}');
-      throw 'Erro ao buscar tarefa, tente novamente mais tarde!';
+      throw errorServer;
     }
   }
 
@@ -40,7 +41,7 @@ class HttpClient {
       return response;
     } on DioError catch (e) {
       debugPrint('${e.error}');
-      throw 'Erro ao inserir tarefa, tente novamente mais tarde!';
+      throw errorServer;
     }
   }
 
@@ -51,7 +52,7 @@ class HttpClient {
       return response;
     } on DioError catch (e) {
       debugPrint('${e.error}');
-      throw 'Erro ao excluir tarefa, tente novamente mais tarde!';
+      throw errorServer;
     }
   }
 
@@ -62,7 +63,7 @@ class HttpClient {
       return response;
     } on DioError catch (e) {
       debugPrint('${e.error}');
-      throw 'Erro ao atualizar tarefa, tente novamente mais tarde!';
+      throw errorServer;
     }
   }
 }
