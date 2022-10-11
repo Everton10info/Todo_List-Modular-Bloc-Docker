@@ -54,13 +54,25 @@ class _HomePageState extends State<HomePage> {
                   if (state is TodoInitialState) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is TodoError) {
-                   const   Center(child: CircularProgressIndicator());
-                   showDialog(context: context, builder: (context){
-                    return
-                   const Dialog(child: Text('sdfsafsad',));
-                   });
-                   
-                
+                    return SingleChildScrollView(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: height * 0.05,
+                            ),
+                            Text(
+                              state.message,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Image.asset('assets/error.gif'),
+                          ]),
+                    );
                   } else if (state is TodoSuccessState) {
                     return ListView.builder(
                       itemCount: state.itemsTodo.length,
@@ -74,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                                 showDialog(
                                   context: context,
                                   builder: ((context) {
-                                    return CustomDialog(
+                                    return EditionDialog(
                                         controller: fieldEditionTodo =
                                             TextEditingController(
                                                 text: state
@@ -134,4 +146,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+_snack(String content, context) {
+  return ScaffoldMessenger.of(context)
+      .showSnackBar(SnackBar(content: Text(content)));
 }

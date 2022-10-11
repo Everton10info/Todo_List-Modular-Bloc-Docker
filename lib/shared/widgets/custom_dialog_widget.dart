@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class CustomDialog extends StatelessWidget {
-  CustomDialog({
+class EditionDialog extends StatelessWidget {
+  EditionDialog({
     super.key,
-     this.controller,
-     this.callFunction,
-     this.message,
+    this.controller,
+    this.callFunction,
+    this.message,
   });
   TextEditingController? controller;
   void Function()? callFunction;

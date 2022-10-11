@@ -15,29 +15,34 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     on<TodoLoad>((event, emit) async {
       try {
-        var result = await repository.getData();
-        items = result;
-
+        var items = await repository.getData();
         emit(TodoSuccessState(itemsTodo: items));
-      }catch (error) {
-        emit(TodoError(message:'$error'));
-      
+      } catch (error) {
+        emit(TodoError(message: '$error'));
       }
     });
 
     on<TodoInsert>(((event, emit) async {
       if (event.item.isNotEmpty) {
-        await repository.insertData(event.item, event.check);
-        items = await repository.getData();
-        emit(TodoSuccessState(itemsTodo: items));
+        try {
+          await repository.insertData(event.item, event.check);
+          items = await repository.getData();
+          emit(TodoSuccessState(itemsTodo: items));
+        } catch (error) {
+          emit(TodoError(message: '$error'));
+        }
       }
     }));
 
     on<TodoEdit>(((event, emit) async {
       if (event.name.isNotEmpty) {
-        await repository.updateData(event.id, event.name, event.completed);
-        items = await repository.getData();
-        emit(TodoSuccessState(itemsTodo: items));
+        try {
+          await repository.updateData(event.id, event.name, event.completed);
+          items = await repository.getData();
+          emit(TodoSuccessState(itemsTodo: items));
+        } catch (error) {
+          emit(TodoError(message: '$error'));
+        }
       }
     }));
 

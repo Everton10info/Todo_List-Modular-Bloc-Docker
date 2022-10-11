@@ -17,34 +17,19 @@ class HomeRepository {
   }
 
   Future insertData(String name, bool check) async {
-    try {
-      var response = await _httpClient.posttHttp(name, check);
-
-      return response;
-    } catch (e) {
-      rethrow;
-    }
+    Response response = await _httpClient.posttHttp(name, check);
+    return response.data;
   }
 
   Future deleteData(String id) async {
-    try {
-      var response = await _httpClient.deleteHttp(id);
-      return response;
-    } catch (e) {
-      debugPrint('$e');
-      rethrow;
-    }
+    var response = await _httpClient.deleteHttp(id);
+    return response.data;
   }
 
   Future updateData(String id, String name, bool check) async {
     Map<String, dynamic> data = {"id": id, "name": name, "completed": check};
 
-    try {
-      var response = await _httpClient.updateHttp(id, data);
-      return response.data;
-    } catch (e) {
-      debugPrint('$e');
-      rethrow;
-    }
+    var response = await _httpClient.updateHttp(id, data);
+    return response.data;
   }
 }
