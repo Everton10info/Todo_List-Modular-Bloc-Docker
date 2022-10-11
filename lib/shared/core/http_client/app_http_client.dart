@@ -21,47 +21,48 @@ class HttpClient {
     return dio;
   }
 
-  Future getHttp() async {
+  Future<Response> getHttp() async {
+    Response response;
     try {
-      return await _dio.get(appApi.baseUrl + appApi.itemsRoute);
-    } on DioError catch (e) {
-      debugPrint('$e');
-      rethrow;
-    }
-  }
-
-  
-
-  Future posttHttp(String name, bool check) async {
-    try {
-      var response = await _dio.post(appApi.baseUrl + appApi.itemsRoute,
-          data: {"name": name, "completed": check});
+      response = await _dio.get(appApi.baseUrl + appApi.itemsRoute);
 
       return response;
     } on DioError catch (e) {
-      debugPrint('$e');
-      rethrow;
+      debugPrint('${e.error}');
+      throw 'Erro ao buscar tarefa, tente novamente mais tarde!';
     }
   }
 
-  Future deleteHttp(String id) async {
+  Future<Response> posttHttp(String name, bool check) async {
+    try {
+      var response = await _dio.post(appApi.baseUrl + appApi.itemsRoute,
+          data: {"name": name, "completed": check});
+      return response;
+    } on DioError catch (e) {
+      debugPrint('${e.error}');
+      throw 'Erro ao inserir tarefa, tente novamente mais tarde!';
+    }
+  }
+
+  Future<Response> deleteHttp(String id) async {
     try {
       var response = await _dio.delete(appApi.baseUrl + appApi.itemsRoute + id);
-      debugPrint('$response');
+      debugPrint('${response.statusCode}');
+      return response;
     } on DioError catch (e) {
-      debugPrint('$e');
-      rethrow;
+      debugPrint('${e.error}');
+      throw 'Erro ao excluir tarefa, tente novamente mais tarde!';
     }
   }
 
-  Future updateHttp(String id, data) async {
+  Future<Response> updateHttp(String id, data) async {
     try {
       var response =
           await _dio.put(appApi.baseUrl + appApi.itemsRoute + id, data: data);
       return response;
     } on DioError catch (e) {
-      debugPrint('$e');
-      rethrow;
+      debugPrint('${e.error}');
+      throw 'Erro ao atualizar tarefa, tente novamente mais tarde!';
     }
   }
 }

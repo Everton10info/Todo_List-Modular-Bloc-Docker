@@ -1,6 +1,9 @@
+// ignore_for_file: void_checks
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:modular_bloc_docker/shared/widgets/custom_dialog_widget.dart';
 
 import '../bloc/todo_bloc.dart';
 
@@ -50,6 +53,14 @@ class _HomePageState extends State<HomePage> {
                 builder: ((context, state) {
                   if (state is TodoInitialState) {
                     return const Center(child: CircularProgressIndicator());
+                  } else if (state is TodoError) {
+                   const   Center(child: CircularProgressIndicator());
+                   showDialog(context: context, builder: (context){
+                    return
+                   const Dialog(child: Text('sdfsafsad',));
+                   });
+                   
+                
                   } else if (state is TodoSuccessState) {
                     return ListView.builder(
                       itemCount: state.itemsTodo.length,
@@ -63,31 +74,18 @@ class _HomePageState extends State<HomePage> {
                                 showDialog(
                                   context: context,
                                   builder: ((context) {
-                                    return AlertDialog(
-                                      content: TextField(
-                                        style: const TextStyle(fontSize: 20),
+                                    return CustomDialog(
                                         controller: fieldEditionTodo =
                                             TextEditingController(
                                                 text: state
                                                     .itemsTodo[index].name),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            bloc.add(TodoEdit(
-                                                name: fieldEditionTodo.text,
-                                                completed: state
-                                                    .itemsTodo[index]
-                                                    .completed!,
-                                                id: state
-                                                    .itemsTodo[index].id!));
-                                            fieldEditionTodo.text = '';
-                                            Modular.to.pop();
-                                          },
-                                          child: const Text('OK'),
-                                        )
-                                      ],
-                                    );
+                                        callFunction: () {
+                                          bloc.add(TodoEdit(
+                                              name: fieldEditionTodo.text,
+                                              completed: state
+                                                  .itemsTodo[index].completed!,
+                                              id: state.itemsTodo[index].id!));
+                                        });
                                   }),
                                 );
                               },

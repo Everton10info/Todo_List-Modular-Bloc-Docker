@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../shared/core/http_client/app_http_client.dart';
@@ -9,21 +10,18 @@ class HomeRepository {
   HomeRepository(this._httpClient);
 
   Future<List<TodoModel>> getData() async {
-    try {
-      var response = await _httpClient.getHttp();
-      return (response.data as List).map((e) => TodoModel.fromJson(e)).toList();
-    } catch (e) {
-      debugPrint('$e');
-      rethrow;
-    }
+    Response response = await _httpClient.getHttp();
+    final result =
+        (response.data as List).map((e) => TodoModel.fromJson(e)).toList();
+    return result;
   }
 
   Future insertData(String name, bool check) async {
     try {
       var response = await _httpClient.posttHttp(name, check);
-      return response.data;
+
+      return response;
     } catch (e) {
-      debugPrint('$e');
       rethrow;
     }
   }

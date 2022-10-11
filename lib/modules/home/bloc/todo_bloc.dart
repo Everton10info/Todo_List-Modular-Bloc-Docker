@@ -12,19 +12,17 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   List<TodoModel> items = [];
   TodoBloc() : super(TodoInitialState()) {
     var repository = Modular.get<HomeRepository>();
-    
+
     on<TodoLoad>((event, emit) async {
-      print('eeeeeee $items');
       try {
-        items = await repository.getData();
-      } catch (e) {
+        var result = await repository.getData();
+        items = result;
 
-
-        
-
-      }
+        emit(TodoSuccessState(itemsTodo: items));
+      }catch (error) {
+        emit(TodoError(message:'$error'));
       
-      emit(TodoSuccessState(itemsTodo: items));
+      }
     });
 
     on<TodoInsert>(((event, emit) async {

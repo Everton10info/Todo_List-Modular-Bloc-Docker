@@ -14,3 +14,9 @@ TodoInitialState() : super(itemsTodo: []);
 class TodoSuccessState  extends TodoState {
  TodoSuccessState({required List<TodoModel> itemsTodo}) : super(itemsTodo: itemsTodo);
 }
+
+class TodoError extends TodoState {
+ final String message;
+
+  TodoError({required this.message}) : super(itemsTodo: []);
+}
