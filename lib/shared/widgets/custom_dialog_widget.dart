@@ -1,31 +1,25 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
-class EditionDialog extends StatelessWidget {
-  EditionDialog({
+class CustomDialog extends StatelessWidget {
+  CustomDialog({
     super.key,
-    this.controller,
-    this.callFunction,
-    this.message,
+    required this.callFunction,
+    required this.content,
   });
   TextEditingController? controller;
-  void Function()? callFunction;
-  String? message;
+  void Function() callFunction;
+  Widget content;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: TextField(
-        style: const TextStyle(fontSize: 20),
-        controller: controller,
-      ),
+      content: content,
       actions: [
         TextButton(
           onPressed: () {
-            callFunction!();
-            Modular.to.pop();
+            callFunction();
           },
           child: const Text('OK'),
         )
