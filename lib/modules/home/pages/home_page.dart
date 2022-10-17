@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/shared/core/http_client/app_http_client_dio.dart';
 import 'package:modular_bloc_docker/shared/widgets/custom_dialog_widget.dart';
 
 import '../bloc/todo_bloc.dart';
@@ -52,8 +51,7 @@ class _HomePageState extends State<HomePage> {
         body: BlocListener<TodoBloc, TodoState>(
           bloc: bloc,
           listener: (context, state) {
-            if (state is TodoError &&
-                state.message == HttpClient().errorServer) {
+            if (state is TodoError) {
               showDialog(
                 context: context,
                 builder: ((context) {
@@ -62,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                       height: height * 0.1,
                       child: Text(
                         state.message,
-                        style: const TextStyle(color: Colors.red, fontSize: 25),
+                        style: const TextStyle(color: Colors.red, fontSize: 15),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -89,36 +87,19 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: height * 0.02,
                 ),
-                BlocListener<TodoBloc, TodoState>(
-                  bloc: bloc,
-                  listener: (context, state) {
-                    if (state is TodoError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            state.message,
-                            style: const TextStyle(
-                                color: Colors.red, fontSize: 18),
-                            textAlign: TextAlign.center,
-                          ),
+                ElevatedButton.icon(
+                    onPressed: () {
+                      bloc.add(
+                        TodoInsert(
+                          item: fieldAddTodo.text,
+                          check: check,
                         ),
                       );
-                    }
-                  },
-                  child: ElevatedButton.icon(
-                      onPressed: () {
-                        bloc.add(
-                          TodoInsert(
-                            item: fieldAddTodo.text,
-                            check: check,
-                          ),
-                        );
-                        fieldAddTodo.text = '';
-                        FocusScope.of(context).unfocus();
-                      },
-                      icon: const Icon(Icons.add),
-                      label: const Text('Insert')),
-                ),
+                      fieldAddTodo.text = '';
+                      FocusScope.of(context).unfocus();
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text('Insert')),
                 SizedBox(height: height * 0.02),
               ],
             ),
@@ -132,7 +113,7 @@ class _HomePageState extends State<HomePage> {
         bloc: bloc,
         builder: ((context, state) {
           if (state is TodoInitialState) {
-            const Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }

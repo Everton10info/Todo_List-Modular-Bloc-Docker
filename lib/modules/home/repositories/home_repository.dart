@@ -1,37 +1,35 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-
-import '../../../shared/core/http_client/app_http_client_dio.dart';
+import '../../../shared/core/http_client/app_http_interface.dart';
 import '../models/todo_model.dart';
 
 class HomeRepository {
-  final HttpClient _httpClient;
+  final HttpClientInterface _httpClient;
 
   HomeRepository(this._httpClient);
 
   Future<List<TodoModel>> getData() async {
-    Response response = await _httpClient.getHttp();
-    final result = (response.data as List)
-        .map((todo) => TodoModel.fromJson(todo))
-        .toList();
+    List response = await _httpClient.getHttp();
+    final result = (response).map((todo) => TodoModel.fromJson(todo)).toList();
+
     return result;
   }
 
   Future insertData(String name, bool check) async {
-    var response = await _httpClient.posttHttp(name, check);
-    debugPrint('post dio + ${response.data}');
-    return response.data;
+    var response =
+        await _httpClient.insertHttp(TodoModel(name: name, completed: check));
+    debugPrint('post http + $response');
+    return response;
   }
 
   Future deleteData(String id) async {
-    var response = await _httpClient.deleteHttp(id);
-    return response.data;
+    var response = await _httpClient.deleHttp(id);
+    return response;
   }
 
   Future updateData(String id, String name, bool check) async {
-    Map<String, dynamic> data = {"id": id, "name": name, "completed": check};
-
-    var response = await _httpClient.updateHttp(id, data);
-    return response.data;
+    var response = await _httpClient
+        .updateHttp(TodoModel(id: id, name: name, completed: check));
+    debugPrint('upppppp ===== $response');
+    return response;
   }
 }

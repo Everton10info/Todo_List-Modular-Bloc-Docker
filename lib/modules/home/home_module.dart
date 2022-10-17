@@ -1,5 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/modules/home/repositories/home_repository_.dart';
+import 'package:modular_bloc_docker/modules/home/repositories/home_repository.dart';
 
 import 'bloc/todo_bloc.dart';
 import 'pages/home_page.dart';

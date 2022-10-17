@@ -15,13 +15,17 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: const Color.fromARGB(255, 229, 220, 192),
       content: content,
       actions: [
         TextButton(
           onPressed: () {
             callFunction();
           },
-          child: const Text('OK'),
+          child: const Text(
+            'OK',
+            style: TextStyle(fontSize: 20),
+          ),
         )
       ],
     );
