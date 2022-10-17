@@ -33,7 +33,7 @@ class CustomElevatedButon extends StatelessWidget {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 backgroundColor: Colors.redAccent,
-                content: Text('Campo não pode ser vazio!')));
+                content: Text('Campo precisar ter no mínimo 3 caracteres!')));
           }
         },
         icon: const Icon(Icons.add),
