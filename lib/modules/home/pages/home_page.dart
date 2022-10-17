@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/shared/widgets/custom_dialog_widget.dart';
+import 'package:modular_bloc_docker/modules/home/widgets/custom_dialog_widget.dart';
 
+import '../widgets/custom_elevated_button.dart';
+import '../widgets/custom_form_field.dart';
 import '../bloc/todo_bloc.dart';
 import '../models/todo_model.dart';
 
@@ -27,6 +29,9 @@ class _HomePageState extends State<HomePage> {
     bloc.add(TodoLoad());
     super.initState();
   }
+
+  final _formKeyAddTodo = GlobalKey<FormState>();
+  final _formKeyEditionTodo = GlobalKey<FormState>();
 
   Future<void> refreshTodo(BuildContext context) async {
     return bloc.add(
@@ -60,7 +65,8 @@ class _HomePageState extends State<HomePage> {
                       height: height * 0.1,
                       child: Text(
                         state.message,
-                        style: const TextStyle(color: Colors.red, fontSize: 15),
+                        style: const TextStyle(
+                            color: Colors.redAccent, fontSize: 24),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -77,29 +83,16 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                TextField(
-                    style: const TextStyle(fontSize: 20),
-                    controller: fieldAddTodo,
-                    decoration: const InputDecoration(
-                      hintText: 'Digite a tarefa',
-                    )),
+                CustomFormField(formKey: _formKeyAddTodo, field: fieldAddTodo),
                 _builderList(),
                 SizedBox(
                   height: height * 0.02,
                 ),
-                ElevatedButton.icon(
-                    onPressed: () {
-                      bloc.add(
-                        TodoInsert(
-                          item: fieldAddTodo.text,
-                          check: check,
-                        ),
-                      );
-                      fieldAddTodo.text = '';
-                      FocusScope.of(context).unfocus();
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text('Insert')),
+                CustomElevatedButon(
+                    formKey: _formKeyAddTodo,
+                    bloc: bloc,
+                    field: fieldAddTodo,
+                    check: check),
                 SizedBox(height: height * 0.02),
               ],
             ),
@@ -133,19 +126,19 @@ class _HomePageState extends State<HomePage> {
                               context: context,
                               builder: ((context) {
                                 return CustomDialog(
-                                    content: TextField(
-                                      controller: fieldEditionTodo =
-                                          TextEditingController(
-                                              text:
-                                                  state.itemsTodo[index].name),
-                                    ),
+                                    content: CustomFormField(
+                                        formKey: _formKeyEditionTodo,
+                                        field: fieldEditionTodo),
                                     callFunction: () {
-                                      bloc.add(TodoEdit(
-                                          name: fieldEditionTodo.text,
-                                          completed:
-                                              state.itemsTodo[index].completed!,
-                                          id: state.itemsTodo[index].id!));
-                                      Modular.to.pop();
+                                      if (_formKeyEditionTodo.currentState!
+                                          .validate()) {
+                                        bloc.add(TodoEdit(
+                                            name: fieldEditionTodo.text,
+                                            completed: state
+                                                .itemsTodo[index].completed!,
+                                            id: state.itemsTodo[index].id!));
+                                        Modular.to.pop();
+                                      }
                                     });
                               }),
                             );
@@ -178,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ));
           }
-          return Container();
+          return Image.asset('assets/images/error.gif');
         }),
       ),
     );

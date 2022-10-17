@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:modular_bloc_docker/shared/core/http_client/app_api.dart';
 import 'package:modular_bloc_docker/shared/core/http_client/app_http_interface.dart';

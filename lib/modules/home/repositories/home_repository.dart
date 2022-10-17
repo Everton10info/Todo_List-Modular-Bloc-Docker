@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import '../../../shared/core/http_client/app_http_interface.dart';
 import '../models/todo_model.dart';
 
@@ -17,7 +16,6 @@ class HomeRepository {
   Future insertData(String name, bool check) async {
     var response =
         await _httpClient.insertHttp(TodoModel(name: name, completed: check));
-    debugPrint('post http + $response');
     return response;
   }
 
@@ -29,7 +27,6 @@ class HomeRepository {
   Future updateData(String id, String name, bool check) async {
     var response = await _httpClient
         .updateHttp(TodoModel(id: id, name: name, completed: check));
-    debugPrint('upppppp ===== $response');
     return response;
   }
 }

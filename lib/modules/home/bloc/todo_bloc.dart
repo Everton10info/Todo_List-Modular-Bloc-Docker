@@ -26,14 +26,12 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     on<TodoInsert>(
       ((event, emit) async {
-        if (event.item.isNotEmpty) {
-          try {
-            await repository.insertData(event.item, event.check);
-            items = await repository.getData();
-            emit(TodoSuccessState(itemsTodo: items));
-          } catch (error) {
-            emit(TodoError(message: '$error'));
-          }
+        try {
+          await repository.insertData(event.item, event.check);
+          items = await repository.getData();
+          emit(TodoSuccessState(itemsTodo: items));
+        } catch (error) {
+          emit(TodoError(message: '$error'));
         }
       }),
     );

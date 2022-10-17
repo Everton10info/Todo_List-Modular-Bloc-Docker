@@ -29,7 +29,7 @@ class ClientHttp implements HttpClientInterface {
       List data = jsonDecode(response.body);
       return data;
     } catch (e) {
-      rethrow; //throw errorServer;
+      throw errorServer;
     }
   }
 
@@ -56,9 +56,9 @@ class ClientHttp implements HttpClientInterface {
           Uri.parse('${AppApi.baseUrl} ${AppApi.endPoint}${todo.id}'),
           headers: header,
           body: jsonEncode(todo));
-      return response;
+      return response.body;
     } catch (e) {
-      rethrow; //throw errorServer;
+      throw errorServer;
     }
   }
 }

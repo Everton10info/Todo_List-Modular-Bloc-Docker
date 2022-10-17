@@ -1,16 +1,16 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 
 class CustomDialog extends StatelessWidget {
-  CustomDialog({
+  final TextEditingController? controller;
+  final void Function() callFunction;
+  final Widget content;
+
+  const CustomDialog({
     super.key,
     required this.callFunction,
     required this.content,
+    this.controller,
   });
-  TextEditingController? controller;
-  void Function() callFunction;
-  Widget content;
 
   @override
   Widget build(BuildContext context) {
