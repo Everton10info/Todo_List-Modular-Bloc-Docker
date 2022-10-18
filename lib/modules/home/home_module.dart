@@ -1,13 +1,13 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/modules/home/repositories/home_repository.dart';
 
-import 'bloc/todo_bloc.dart';
+import 'bloc/home_bloc.dart';
 import 'pages/home_page.dart';
+import 'repositories/home_repository.dart';
 
-class TodoModule extends Module {
+class HomeModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind((i) => TodoBloc()),
+        Bind((i) => HomeBloc()),
         Bind((i) => HomeRepository(i())),
       ];
 
