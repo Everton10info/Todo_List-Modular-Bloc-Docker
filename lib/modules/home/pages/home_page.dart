@@ -1,14 +1,12 @@
-// ignore_for_file: void_checks
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/modules/home/widgets/custom_dialog_widget.dart';
+import 'package:modular_bloc_docker/shared/helpers/snackbar_helper.dart';
 
-import '../widgets/custom_elevated_button.dart';
-import '../widgets/custom_form_field.dart';
-import '../bloc/todo_bloc.dart';
-import '../models/todo_model.dart';
+import '../widgets/app_elevated_button_widget.dart';
+import '../widgets/app_list_tile_widget.dart';
+import '../widgets/app_text_field_widget.dart';
+import '../bloc/home_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,162 +16,133 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController fieldAddTodo = TextEditingController();
-  TextEditingController fieldEditionTodo = TextEditingController();
-  final bloc = Modular.get<TodoBloc>();
+  final bloc = Modular.get<HomeBloc>();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _addItemController = TextEditingController();
   bool check = false;
-  List<TodoModel> itemHome = [];
 
   @override
   void initState() {
-    bloc.add(TodoLoad());
     super.initState();
+    bloc.add(HomeLoad());
   }
-
-  final _formKeyAddTodo = GlobalKey<FormState>();
-  final _formKeyEditionTodo = GlobalKey<FormState>();
 
   Future<void> refreshTodo(BuildContext context) async {
     return bloc.add(
-      TodoLoad(),
+      HomeLoad(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Todo List'),
-          actions: [
-            IconButton(
-                onPressed: (() {
-                  refreshTodo(context);
-                }),
-                icon: const Icon(Icons.refresh))
-          ],
-        ),
-        body: BlocListener<TodoBloc, TodoState>(
-          bloc: bloc,
-          listener: (context, state) {
-            if (state is TodoError) {
-              showDialog(
-                context: context,
-                builder: ((context) {
-                  return CustomDialog(
-                    content: SizedBox(
-                      height: height * 0.1,
-                      child: Text(
-                        state.message,
-                        style: const TextStyle(
-                            color: Colors.redAccent, fontSize: 24),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    callFunction: () {
-                      Modular.to.pop();
-                    },
-                  );
-                }),
-              );
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CustomFormField(formKey: _formKeyAddTodo, field: fieldAddTodo),
-                _builderList(),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                CustomElevatedButon(
-                    formKey: _formKeyAddTodo,
-                    bloc: bloc,
-                    field: fieldAddTodo,
-                    check: check),
-                SizedBox(height: height * 0.02),
-              ],
-            ),
-          ),
-        ));
+      appBar: AppBar(
+        title: const Text('Todo List'),
+        actions: [
+          IconButton(
+            onPressed: () => refreshTodo(context),
+            icon: const Icon(Icons.refresh),
+          )
+        ],
+      ),
+      body: BlocListener<HomeBloc, HomeState>(
+        bloc: bloc,
+        listener: (context, state) {
+          if (state is HomeErrorState) {
+            SnackbarHelper.show(
+              context,
+              message: state.message,
+              color: Colors.red,
+            );
+          }
+        },
+        child: _buildPage(),
+      ),
+    );
   }
 
-  Widget _builderList() {
+  Widget _buildPage() {
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppTextFormFieldWidget(
+              controller: _addItemController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            _buildItemsList(),
+            AppElevatedButtonWidget(
+              onPressed: _onPressed,
+              label: 'Insert',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItemsList() {
     return Expanded(
-      child: BlocBuilder<TodoBloc, TodoState>(
+      child: BlocBuilder<HomeBloc, HomeState>(
         bloc: bloc,
         builder: ((context, state) {
-          if (state is TodoInitialState) {
+          if (state is HomeInitialState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state is TodoSuccessState) {
-            return RefreshIndicator(
-                onRefresh: () => refreshTodo(context),
-                child: ListView.builder(
-                  itemCount: state.itemsTodo.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      color: Colors.grey.shade300,
-                      elevation: 4,
-                      child: ListTile(
-                        title: GestureDetector(
-                          onDoubleTap: () {
-                            showDialog(
-                              context: context,
-                              builder: ((context) {
-                                return CustomDialog(
-                                    content: CustomFormField(
-                                        formKey: _formKeyEditionTodo,
-                                        field: fieldEditionTodo),
-                                    callFunction: () {
-                                      if (_formKeyEditionTodo.currentState!
-                                          .validate()) {
-                                        bloc.add(TodoEdit(
-                                            name: fieldEditionTodo.text,
-                                            completed: state
-                                                .itemsTodo[index].completed!,
-                                            id: state.itemsTodo[index].id!));
-                                        Modular.to.pop();
-                                      }
-                                    });
-                              }),
-                            );
-                          },
-                          child: Text(
-                              textAlign: TextAlign.start,
-                              state.itemsTodo[index].name!,
-                              style: const TextStyle(
-                                fontSize: 20,
-                              )),
+          if (state is HomeSuccessState) {
+            return ListView.builder(
+              itemCount: state.itemsTodo.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: AppListTileWidget(
+                    title: state.itemsTodo[index].name!,
+                    valueCheckBox: state.itemsTodo[index].completed!,
+                    onChanged: (check) {
+                      bloc.add(
+                        HomeEditItemEvent(
+                          name: state.itemsTodo[index].name!,
+                          completed: check!,
+                          id: state.itemsTodo[index].id!,
                         ),
-                        leading: Checkbox(
-                            value: state.itemsTodo[index].completed!,
-                            onChanged: (check) {
-                              bloc.add(TodoEdit(
-                                  name: state.itemsTodo[index].name!,
-                                  completed: check!,
-                                  id: state.itemsTodo[index].id!));
-                            }),
-                        trailing: IconButton(
-                          color: Colors.black54,
-                          onPressed: () {
-                            bloc.add(
-                                TodoDelete(id: state.itemsTodo[index].id!));
-                          },
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ),
-                    );
-                  },
-                ));
+                      );
+                    },
+                    onPressedEdit: () {},
+                    onPressedDelete: () => bloc.add(
+                      HomeDeleteItemEvent(id: state.itemsTodo[index].id!),
+                    ),
+                  ),
+                );
+              },
+            );
           }
-          return Image.asset('assets/images/error.gif');
+          return const Center(
+            child: Text('Error to load list...'),
+          );
         }),
       ),
     );
+  }
+
+  _onPressed() {
+    if (_formKey.currentState!.validate()) {
+      bloc.add(
+        HomeCreateItemEvent(
+          item: _addItemController.text,
+          check: check,
+        ),
+      );
+      _addItemController.text = '';
+      FocusScope.of(context).unfocus();
+    }
   }
 }

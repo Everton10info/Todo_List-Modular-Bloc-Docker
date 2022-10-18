@@ -1,8 +1,8 @@
-import '../../../modules/home/models/todo_model.dart';
+import '../../../modules/home/models/item_model.dart';
 
 abstract class HttpClientInterface {
-  Future getHttp();
-  Future insertHttp(TodoModel todo);
-  Future deleHttp(String id);
-  Future updateHttp(TodoModel todo);
+  Future<Map<String, dynamic>> createHttp(ItemModel todo);
+  Future<List> readHttp();
+  Future<dynamic> updateHttp(ItemModel todo);
+  Future<String> deleteHttp(String id);
 }

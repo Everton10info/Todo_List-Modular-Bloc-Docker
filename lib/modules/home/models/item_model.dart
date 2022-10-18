@@ -1,11 +1,11 @@
-class TodoModel {
+class ItemModel {
   String? id;
   String? name;
   bool? completed;
 
-  TodoModel({this.id, this.name, this.completed});
+  ItemModel({this.id, this.name, this.completed});
 
-  TodoModel.fromJson(Map<String, dynamic> json) {
+  ItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     completed = json['completed'];

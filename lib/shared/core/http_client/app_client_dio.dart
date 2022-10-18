@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:modular_bloc_docker/shared/core/http_client/app_api.dart';
-import 'package:modular_bloc_docker/shared/core/http_client/app_http_interface.dart';
+import 'app_api.dart';
+import 'app_http_interface.dart';
 
-import '../../../modules/home/models/todo_model.dart';
+import '../../../modules/home/models/item_model.dart';
 
 class ClientDio implements HttpClientInterface {
   final _dio = _createDio();
@@ -23,31 +23,9 @@ class ClientDio implements HttpClientInterface {
   }
 
   @override
-  Future<String> deleHttp(String id) async {
+  Future<Map<String, dynamic>> createHttp(ItemModel todo) async {
     try {
-      Response response = await _dio.delete(AppApi.endPoint + id);
-
-      return response.data;
-    } catch (e) {
-      throw errorServer;
-    }
-  }
-
-  @override
-  Future<List> getHttp() async {
-    try {
-      Response response = await _dio.get(AppApi.endPoint);
-      List data = (response.data);
-      return data;
-    } catch (e) {
-      throw errorServer;
-    }
-  }
-
-  @override
-  Future<Map<String, dynamic>> insertHttp(TodoModel todo) async {
-    try {
-      Response response = await _dio.post(AppApi.endPoint, data: todo);
+      Response response = await _dio.post(AppApi.items, data: todo);
       Map<String, dynamic> data = (response.data);
       return data;
     } catch (e) {
@@ -56,10 +34,32 @@ class ClientDio implements HttpClientInterface {
   }
 
   @override
-  Future updateHttp(TodoModel todo) async {
+  Future<List> readHttp() async {
     try {
-      var response = await _dio.put('${AppApi.endPoint}${todo.id}', data: todo);
+      Response response = await _dio.get(AppApi.items);
+      List data = (response.data);
+      return data;
+    } catch (e) {
+      throw errorServer;
+    }
+  }
+
+  @override
+  Future<dynamic> updateHttp(ItemModel todo) async {
+    try {
+      var response = await _dio.put('${AppApi.items}${todo.id}', data: todo);
       return response;
+    } catch (e) {
+      throw errorServer;
+    }
+  }
+
+  @override
+  Future<String> deleteHttp(String id) async {
+    try {
+      Response response = await _dio.delete(AppApi.items + id);
+
+      return response.data;
     } catch (e) {
       throw errorServer;
     }

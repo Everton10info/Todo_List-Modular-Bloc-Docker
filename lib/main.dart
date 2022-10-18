@@ -7,5 +7,3 @@ import 'app_widget.dart';
 void main() async {
   return runApp(ModularApp(module: AppModule(), child: const AppWidget()));
 }
-
-

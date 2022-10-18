@@ -17,30 +17,16 @@ class _SplashPageState extends State<SplashPage> {
 
   _loadPage() {
     Future.delayed(const Duration(seconds: 2))
-        .then((value) => Modular.to.navigate('/todo/'));
+        .then((value) => Modular.to.navigate('/home/'));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
-          FlutterLogo(
-            size: 128,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Todo List',
-            style: TextStyle(
-              fontSize: 40,
-            ),
-            textAlign: TextAlign.center,
-          )
-        ],
+    return const Scaffold(
+      body: Center(
+        child: FlutterLogo(
+          size: 128,
+        ),
       ),
     );
   }
