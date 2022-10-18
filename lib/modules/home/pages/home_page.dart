@@ -35,6 +35,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<HomeBloc, HomeState>(
+      bloc: bloc,
+      listener: (context, state) {
+        if (state is HomeErrorState) {
+          SnackbarHelper.show(
+            context,
+            message: state.message,
+            color: Colors.red,
+          );
+        }
+      },
+      child: _buildPage(),
+    );
+  }
+
+  Widget _buildPage() {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todo List'),
@@ -45,45 +61,29 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: BlocListener<HomeBloc, HomeState>(
-        bloc: bloc,
-        listener: (context, state) {
-          if (state is HomeErrorState) {
-            SnackbarHelper.show(
-              context,
-              message: state.message,
-              color: Colors.red,
-            );
-          }
-        },
-        child: _buildPage(),
-      ),
-    );
-  }
-
-  Widget _buildPage() {
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AppTextFormFieldWidget(
-              controller: _addItemController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-            _buildItemsList(),
-            AppElevatedButtonWidget(
-              onPressed: _onPressed,
-              label: 'Insert',
-            ),
-          ],
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AppTextFormFieldWidget(
+                controller: _addItemController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              _buildItemsList(),
+              AppElevatedButtonWidget(
+                onPressed: _onPressed,
+                label: 'Insert',
+              ),
+            ],
+          ),
         ),
       ),
     );
