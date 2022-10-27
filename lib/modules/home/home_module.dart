@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:modular_bloc_docker/modules/home/pages/edition_page.dart';
 
 import 'bloc/home_bloc.dart';
 import 'pages/home_page.dart';
@@ -13,9 +14,8 @@ class HomeModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute(
-          '/',
-          child: (context, args) => const HomePage(),
-        ),
+        ChildRoute('/', child: (context, args) => const HomePage()),
+        ChildRoute('/editionPage',
+            child: (context, args) => const EditionPage())
       ];
 }

@@ -116,7 +116,16 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    onPressedEdit: () {},
+                    onPressedEdit: () {
+                      Modular.to.pushNamed(
+                        'editionPage',
+                        arguments: HomeEditItemEvent(
+                          name: state.itemsTodo[index].name!,
+                          completed: state.itemsTodo[index].completed!,
+                          id: state.itemsTodo[index].id!,
+                        ),
+                      );
+                    },
                     onPressedDelete: () => bloc.add(
                       HomeDeleteItemEvent(id: state.itemsTodo[index].id!),
                     ),
