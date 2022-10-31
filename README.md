@@ -1,7 +1,7 @@
 # Aplicativo Todo-List
 
 Projeto criado em [Flutter](https://flutter.dev/) para estudo de conceitos como navegação, gerencia de estado, uso de containers e princípios de SOLID.
-Template criado por @matheusjferreira, utilizando [figma](https://www.figma.com/).
+Template criado por [Matheus Ferreira](https://github.com/matheusjferreira), utilizando [figma](https://www.figma.com/).
 
 ## Ferramentas utilizadas
 
