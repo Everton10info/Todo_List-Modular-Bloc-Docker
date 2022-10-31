@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modular_bloc_docker/shared/helpers/snackbar_helper.dart';
+import 'package:todo_list_new/shared/core/app_colors.dart';
 
+import '../../../../shared/helpers/snackbar_helper.dart';
 import '../widgets/app_elevated_button_widget.dart';
 import '../widgets/app_list_tile_widget.dart';
+import '../widgets/app_scafold_widget.dart';
 import '../widgets/app_text_field_widget.dart';
 import '../bloc/home_bloc.dart';
 
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           SnackbarHelper.show(
             context,
             message: state.message,
-            color: Colors.red,
+            color: AppColors.red.getColor,
           );
         }
       },
@@ -51,40 +53,32 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildPage() {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Todo List'),
-        actions: [
-          IconButton(
-            onPressed: () => refreshTodo(context),
-            icon: const Icon(Icons.refresh),
-          )
-        ],
-      ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppTextFormFieldWidget(
-                controller: _addItemController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              _buildItemsList(),
-              AppElevatedButtonWidget(
-                onPressed: _onPressed,
-                label: 'Insert',
-              ),
-            ],
-          ),
+    return SafeArea(
+      child: AppScafoldWidget(
+        actionAppBar: IconButton(
+          onPressed: () => refreshTodo(context),
+          icon: const Icon(Icons.sync),
         ),
+        children: [
+          Form(
+            key: _formKey,
+            child: AppTextFormFieldWidget(
+              label: 'Add your task',
+              controller: _addItemController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+          ),
+          _buildItemsList(),
+          AppElevatedButtonWidget(
+            onPressed: _onPressed,
+            label: 'Create',
+          ),
+        ],
       ),
     );
   }
@@ -103,32 +97,27 @@ class _HomePageState extends State<HomePage> {
             return ListView.builder(
               itemCount: state.itemsTodo.length,
               itemBuilder: (context, index) {
-                return Card(
-                  child: AppListTileWidget(
-                    title: state.itemsTodo[index].name!,
-                    valueCheckBox: state.itemsTodo[index].completed!,
-                    onChanged: (check) {
-                      bloc.add(
-                        HomeEditItemEvent(
-                          name: state.itemsTodo[index].name!,
-                          completed: check!,
-                          id: state.itemsTodo[index].id!,
-                        ),
-                      );
-                    },
-                    onPressedEdit: () {
-                      Modular.to.pushNamed(
-                        'editionPage',
-                        arguments: HomeEditItemEvent(
-                          name: state.itemsTodo[index].name!,
-                          completed: state.itemsTodo[index].completed!,
-                          id: state.itemsTodo[index].id!,
-                        ),
-                      );
-                    },
-                    onPressedDelete: () => bloc.add(
-                      HomeDeleteItemEvent(id: state.itemsTodo[index].id!),
-                    ),
+                return AppListTileWidget(
+                  title: state.itemsTodo[index].name!,
+                  valueCheckBox: state.itemsTodo[index].completed!,
+                  onChanged: (check) {
+                    bloc.add(
+                      HomeEditItemEvent(
+                        name: state.itemsTodo[index].name!,
+                        completed: check!,
+                        id: state.itemsTodo[index].id!,
+                      ),
+                    );
+                  },
+                  onPressedEdit: () {
+                    Modular.to.pushNamed('editionPage', arguments: {
+                      'name': state.itemsTodo[index].name,
+                      'check': state.itemsTodo[index].completed!,
+                      'id': state.itemsTodo[index].id
+                    });
+                  },
+                  onPressedDelete: () => bloc.add(
+                    HomeDeleteItemEvent(id: state.itemsTodo[index].id!),
                   ),
                 );
               },

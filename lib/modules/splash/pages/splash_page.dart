@@ -22,11 +22,10 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(255, 181, 71, 1),
       body: Center(
-        child: FlutterLogo(
-          size: 128,
-        ),
+        child: Image.asset('assets/images/logo.png'),
       ),
     );
   }
