@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'app_api.dart';
 import 'app_http_interface.dart';
 
-import '../../../modules/home/models/item_model.dart';
+import '../../../../modules/home/models/item_model.dart';
 
 class ClientDio implements HttpClientInterface {
   final _dio = _createDio();
 
-  String errorServer = 'Ops, sem conexão, tente mais tarde!';
+  String errorServer = 'Server error, try again later!';
 
   static Dio _createDio() {
     var dio = Dio(

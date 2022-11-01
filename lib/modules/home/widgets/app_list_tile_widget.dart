@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_new/shared/core/app_colors.dart';
+import 'package:todo_list_new/shared/core/app_fonts.dart';
 
 class AppListTileWidget extends StatelessWidget {
   final String title;
@@ -18,27 +20,51 @@ class AppListTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      leading: Checkbox(
-        value: valueCheckBox,
-        onChanged: onChanged,
-      ),
-      trailing: SizedBox(
-        width: 100,
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: onPressedEdit,
-              icon: const Icon(Icons.create_sharp),
-            ),
-            IconButton(
-              onPressed: onPressedDelete,
-              icon: const Icon(Icons.delete),
-            ),
-          ],
-        ),
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8), color: primaryColor),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Transform.scale(
+                    scale: 0.8,
+                    child: Checkbox(
+                      fillColor: MaterialStateColor.resolveWith(
+                        (states) => AppColors.black.getColor,
+                      ),
+                      checkColor: primaryColor,
+                      value: valueCheckBox,
+                      onChanged: onChanged,
+                    ),
+                  ),
+                  Text(
+                    title,
+                    style: AppFonts.caption14W400.getFont,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    color: AppColors.white.getColor,
+                    onPressed: onPressedEdit,
+                    icon: const Icon(Icons.create_sharp),
+                    iconSize: 18,
+                  ),
+                  IconButton(
+                    color: AppColors.white.getColor,
+                    onPressed: onPressedDelete,
+                    icon: const Icon(Icons.delete),
+                    iconSize: 18,
+                  ),
+                ],
+              )
+            ],
+          )),
     );
   }
 }

@@ -1,9 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:todo_list_new/modules/splash/splash_module.dart';
 
-import 'modules/splash/splash_module.dart';
 import 'modules/home/home_module.dart';
 import 'shared/core/http_client/app_client_dio.dart';
-// import 'shared/core/http_client/app_client_http.dart';
 import 'shared/core/http_client/app_http_interface.dart';
 
 class AppModule extends Module {
@@ -15,6 +14,6 @@ class AppModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ModuleRoute('/', module: SplashModule()),
-        ModuleRoute('/home', module: HomeModule()),
+        ModuleRoute('/home', module: HomeModule())
       ];
 }

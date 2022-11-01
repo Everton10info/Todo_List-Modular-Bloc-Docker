@@ -4,6 +4,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'app_module.dart';
 import 'app_widget.dart';
 
-void main() async {
-  return runApp(ModularApp(module: AppModule(), child: const AppWidget()));
+void main() {
+  runApp(ModularApp(module: AppModule(), child: const AppWidget()));
 }

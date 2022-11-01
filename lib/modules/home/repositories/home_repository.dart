@@ -1,4 +1,4 @@
-import '../../../shared/core/http_client/app_http_interface.dart';
+import '../../../../shared/core/http_client/app_http_interface.dart';
 import '../models/item_model.dart';
 
 class HomeRepository {
