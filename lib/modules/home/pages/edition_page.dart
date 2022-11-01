@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:todo_list_new/modules/home/widgets/app_scafold_widget.dart';
-import 'package:todo_list_new/shared/core/app_colors.dart';
-import 'package:todo_list_new/shared/core/app_fonts.dart';
 
-import '../../../shared/helpers/snackbar_helper.dart';
 import '../bloc/home_bloc.dart';
+import '../../../shared/core/app_colors.dart';
+import '../../../shared/core/app_fonts.dart';
+import '../../../shared/helpers/snackbar_helper.dart';
 import '../widgets/app_elevated_button_widget.dart';
+import '../widgets/app_scafold_widget.dart';
 import '../widgets/app_text_field_widget.dart';
 
 class EditionPage extends StatefulWidget {
@@ -63,6 +63,7 @@ class _EditionPageState extends State<EditionPage> {
         }
       },
       child: AppScafoldWidget(
+        title: 'UPDATE TASK',
         actionAppBar: null,
         children: [
           Form(

@@ -1,7 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:todo_list_new/modules/splash/splash_module.dart';
 
 import 'modules/home/home_module.dart';
+import 'modules/splash/splash_module.dart';
 import 'shared/core/http_client/app_client_dio.dart';
 import 'shared/core/http_client/app_http_interface.dart';
 

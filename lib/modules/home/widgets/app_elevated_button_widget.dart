@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_new/shared/core/app_fonts.dart';
+
+import '../../../shared/core/app_fonts.dart';
 
 class AppElevatedButtonWidget extends StatelessWidget {
   final void Function() onPressed;
@@ -13,16 +14,19 @@ class AppElevatedButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(32)),
+    return SizedBox(
+      height: 40,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(32)),
+          ),
         ),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        label,
-        style: AppFonts.body16W700.getFont,
+        onPressed: onPressed,
+        child: Text(
+          label,
+          style: AppFonts.body16W700.getFont,
+        ),
       ),
     );
   }

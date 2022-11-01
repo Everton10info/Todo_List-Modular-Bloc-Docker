@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_new/shared/core/app_colors.dart';
-import 'package:todo_list_new/shared/core/app_fonts.dart';
+
+import '../../../shared/core/app_colors.dart';
+import '../../../shared/core/app_fonts.dart';
 
 class AppListTileWidget extends StatelessWidget {
   final String title;
@@ -24,7 +25,8 @@ class AppListTileWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8), color: primaryColor),
+              borderRadius: BorderRadius.circular(8),
+              color: AppColors.orange.getColor),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

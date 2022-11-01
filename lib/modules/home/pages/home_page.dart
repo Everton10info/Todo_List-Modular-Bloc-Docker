@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:todo_list_new/shared/core/app_colors.dart';
+import 'package:todo_list_new/shared/core/app_fonts.dart';
 
 import '../../../../shared/helpers/snackbar_helper.dart';
+import '../../../shared/core/app_colors.dart';
 import '../widgets/app_elevated_button_widget.dart';
 import '../widgets/app_list_tile_widget.dart';
 import '../widgets/app_scafold_widget.dart';
@@ -55,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPage() {
     return SafeArea(
       child: AppScafoldWidget(
+        title: 'TODO LIST',
         actionAppBar: IconButton(
           onPressed: () => refreshTodo(context),
           icon: const Icon(Icons.sync),
@@ -123,8 +125,11 @@ class _HomePageState extends State<HomePage> {
               },
             );
           }
-          return const Center(
-            child: Text('Error to load list...'),
+          return Center(
+            child: Text(
+              'Error to load list...',
+              style: AppFonts.caption16W400.getFont,
+            ),
           );
         }),
       ),

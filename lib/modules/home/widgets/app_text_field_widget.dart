@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_new/shared/core/app_colors.dart';
-import 'package:todo_list_new/shared/core/app_fonts.dart';
+
+import '../../../shared/core/app_colors.dart';
+import '../../../shared/core/app_fonts.dart';
 
 class AppTextFormFieldWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -17,7 +18,7 @@ class AppTextFormFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLength: 20,
+      maxLength: 16,
       decoration: InputDecoration(
         hintText: label,
         hintStyle: TextStyle(color: AppColors.grey.getColor),

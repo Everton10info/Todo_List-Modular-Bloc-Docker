@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_new/shared/core/app_fonts.dart';
+
+import '../../../shared/core/app_fonts.dart';
 
 // ignore: must_be_immutable
 class AppScafoldWidget extends StatelessWidget {
   Widget? actionAppBar;
   List<Widget>? children;
+  String title;
 
   AppScafoldWidget({
     super.key,
     required this.children,
     required this.actionAppBar,
+    required this.title,
   });
 
   @override
@@ -18,8 +21,8 @@ class AppScafoldWidget extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Todo List',
-          style: AppFonts.headline24W700.getFont,
+          title,
+          style: AppFonts.headline24Bold.getFont,
         ),
         actions: [actionAppBar ?? const Text('')],
       ),
